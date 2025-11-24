@@ -1,0 +1,716 @@
+/*
+...##..##...####...#####...#####...######...####....
+...###.##..##..##..##..##..##..##....##....##..##...
+...##.###..##..##..#####...##..##....##....##.......
+...##..##..##..##..##..##..##..##....##....##..##...
+...##..##...####...##..##..#####...######...####....
+....................................................
+...#####....####...##..##...####........#####.......
+...##..##..##..##...####...##..........##...##......
+...##..##..######....##.....####........##.##.......
+...##..##..##..##....##........##......##.##.#......
+...#####...##..##....##.....####........#####.......
+....................................................
+...##..##..######...####...##..##..######...####....
+...###.##....##....##......##..##....##....##.......
+...##.###....##....##.###..######....##.....####....
+...##..##....##....##..##..##..##....##........##...
+...##..##..######...####...##..##....##.....####....
+....................................................
+By: VeryRandomness
+https://github.com/Better-With-Butter
+Version 2.1.0
+*/
+
+
+body {
+  font-size:  16px;
+  line-height: 1.6;
+  --font-text-theme:  'Inter', sans-serif;
+  --font-monospace-theme: "Fira Code", "Consolas", monospace;
+  --radius-s: 0px;
+  --radius-m: 0px;
+  --radius-l: 0px;
+  --input-radius: 0px;
+  --tab-radius-active: 0px;
+  --checkbox-radius: 0px;
+  --toggle-radius: 0px;
+  --toggle-thumb-radius: 0px;
+  --slider-thumb-radius: 0px;
+  /* --hr-color is the official CSS variable for the horizontal rule color */
+}
+
+:root {
+   --input-focus-border-color: Highlight;
+   --input-focus-outline: 1px solid Canvas;
+   --input-unfocused-border-color: transparent;
+   --input-disabled-border-color: transparent;
+   --input-hover-border-color: #000000;
+}
+
+svg * {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  rx: 0;
+  ry: 0;
+}
+
+.workspace-tab-header.is-active::before, .workspace-tab-header.is-active::after {
+	display: none;
+}
+
+.theme-dark {
+  --background-primary: #2e3440;
+  --background-primary-alt: #3b4252;
+  --background-secondary: #434c5e;
+  --background-modifier-border: #000000;
+  --text-normal: #e5e9f0;
+  --text-muted: #d8dee9;
+  --text-accent: #0099ff;
+  --text-on-accent: #fdfdfd;  /* White text that sits on the blue accent */
+  --h1-color: #A3BE8C; 
+  --h2-color: #B48EAD; 
+  --h3-color: #8FBCBB; 
+  --h4-color: #BF616A; 
+  --h5-color: #D08770; 
+  --h6-color: #EBCB8B;
+  --highlight-color: 111,142,181;
+  --highlight-color-2: 129, 161, 193;
+  /* Color when Obsidian IS the active, focused window */
+  --titlebar-background-focused: #2E3440; /* Example: A bright Arctic Blue */
+  /* Color when Obsidian IS NOT the active window (inactive/out of focus) */
+  --titlebar-background: #2E3440; /* Example: A dark Nord background color */
+  --tooltip-color:  #3b4252;
+  --tooltip-border: #3b4252;
+  --metadata-divider-color: #e5e9f0;
+  --hr-color: var(--text-muted); /* Example: A bright blue */
+  /* --hr-thickness is also available to change the line's height */
+  --hr-thickness: 2px; /* Example: Makes the line a little thicker */
+  --table-title: #6d7a96;
+  --table-even: #373e4c;
+  --table-odd: #414a5b;
+}
+
+.theme-light {
+  --background-primary: #d8dee9;
+  --background-primary-alt: #e5e9f0;
+  --background-secondary: #eceff4;
+  --background-modifier-border: #000000;
+  --text-normal: #333333;   /* Dark charcoal */
+  --text-muted: #505050;
+  --text-accent: #007acc;   /* A standard blue */
+  --text-on-accent: #fdfdfd;  /* White text that sits on the blue accent */
+  --h1-color: #7ca25c; 
+  --h2-color: #94628a; 
+  --h3-color: #5f9f9e; 
+  --h4-color: #973d46; 
+  --h5-color: #b75a3c; 
+  --h6-color: #e0ae4a;
+  --highlight-color: 162,182,207;
+  --highlight-color-2:  81, 123, 165;
+  --titlebar-background-focused: #d8dee9; 
+  --titlebar-background: #d8dee9;
+  --tooltip-color: #eceff4;
+  --tooltip-border: #eceff4;
+  --metadata-divider: #333333;
+  --hr-color: var(--text-muted); /* Example: A bright blue */
+  /* --hr-thickness is also available to change the line's height */
+  --hr-thickness: 2px; /* Example: Makes the line a little thicker */
+  --table-title: #788ab1;
+  --table-even: #c5cedd;
+  --table-odd: #a3b0ca;
+}
+
+/* 1. Style the Table Header */
+.markdown-source-view.mod-cm6 table thead tr,
+.markdown-preview-view table thead tr {
+  background-color: var(--table-title); /* A dark blue for the header */
+  color: var(--text-normal); /* White text for contrast */
+}
+
+/* 2. Style the Odd Rows (First, Third, Fifth, etc.) */
+.markdown-source-view.mod-cm6 table tbody tr:nth-child(odd),
+.markdown-preview-view table tbody tr:nth-child(odd) {
+  background-color: var(--table-odd); /* A light, neutral color */
+}
+
+/* 3. Style the Even Rows (Second, Fourth, Sixth, etc.) */
+.markdown-source-view.mod-cm6 table tbody tr:nth-child(even),
+.markdown-preview-view table tbody tr:nth-child(even) {
+  background-color: var(--table-even); /* A slightly darker color for contrast (the "stripe") */
+}
+
+/* Style for Inline Code `text` */
+.markdown-preview-view code, 
+.cm-s-obsidian .HyperMD-code,
+.cm-inline-code {
+    font-family: var(--font-monospace-theme);
+    /* Color and background for inline code */
+    color: var(--text-accent); 
+    background-color: var(--background-secondary); 
+    /* Remove rounding for a square look */
+    border-radius: 0px; 
+    /* Add a small border to make it stand out */
+    border: 1px solid var(--background-modifier-border);
+    padding: 2px 4px;
+}
+
+/* Style for Code Blocks (Fenced ` ``` `) */
+.markdown-preview-view pre, 
+.cm-s-obsidian pre.HyperMD-codeblock {
+    font-family: var(--font-monospace-theme);
+    background-color: var(--background-primary-alt); 
+    /* Keep padding and ensure text is visible */
+    padding: 10px;
+    /* Remove rounding */
+    border-radius: 0px;
+    /* Add a border */
+    border: 1px solid var(--background-modifier-border);
+}
+
+/* Adjust paragraph spacing for clarity */
+.markdown-preview-view p {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.workspace-tab-header-inner {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0px 8px;
+  width: 100%;
+}
+
+
+/* Rounded Toggles/Switches */
+
+.setting-item-control .checkbox-container {
+  border-radius: 10px; /* Adjust the radius for more or less roundness */
+}
+
+.setting-item-control .checkbox-container:after {
+  border-radius: 10px; /* For the circular toggle inside */
+}
+
+
+/* --- PROPERTIES TAG STYLING --- */
+/* This selector targets the small tag "pills" within the Properties view. */
+.metadata-property .multi-select-pill {
+    /* 1. Background Color */
+    background-color: rgba(94, 129, 172, 1);
+    /* 2. Text Color */
+    color: #fcfdfe;
+    /* 3. Shape/Border */
+    border-radius: 8px;
+    border: none;
+    /* 4. Spacing */
+    padding: 4px 8px; /* Matches your desired padding */
+    margin: 0 4px 0 0; /* Add a little margin to separate multiple tags */
+    
+    /* Ensure the text inside the pill is styled */
+    font-size: 1em; /* Adjust font size if needed */
+}
+
+/* NEW RULE: Apply strikethrough and gray color to the pill when the 'x' icon is hovered */
+.metadata-property .multi-select-pill:has(.svg-icon.lucide-x:hover) {
+    /* Makes text red */
+    color: #bf616a !important;
+    /* Add strikethrough, increases size, chnages color */
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #bf616a;
+    /* Also tone down the background slightly to emphasize the "removal" state */
+    background-color: rgba(94, 129, 172, 0.3);
+}
+
+
+
+/* Styles that apply to both Reading View and Live Preview */
+
+a.tag,
+.cm-hashtag {
+    /* 1. Background Color */
+    background-color: #5e81ac;
+    /* 2. Text Color */
+    color: #fcfdfe !important; /* Use !important to override theme default if needed */
+    /* 3. Shape/Border */
+    border-radius: 10px;
+    border: none;
+    /* 4. Spacing */
+    padding: 4px 4px;
+    margin-right: 4px;
+}
+
+/* Increase specificity to ensure it applies in Reading View */
+.markdown-preview-view a.tag {
+    /* Only include the essential conflicting properties */
+    border-radius: 10px !important; 
+    /* The !important flag helps override other rules */
+}
+
+/* --- Live Preview / Source Mode Tag Spacing --- */
+
+.cm-hashtag-begin {
+    /* Set the right margin or padding to zero (or a very small negative value) */
+    /* This removes the space after the # and pulls the text closer. */
+    margin-right: -10px !important;
+    padding-right: 10px !important;
+}
+
+/* Targets the 'x' SVG icon directly */
+.svg-icon.lucide-x {
+    color: #fcfdfe !important;   /* Sets the general color for inheritance */
+    stroke: #fcfdfe !important;  /* Explicitly sets the stroke color */
+    fill: none !important;      /* Ensures no background fill if it accidentally has one */
+}
+
+.svg-icon.right-triangle {
+    color: var(--text-normal);
+    stroke: var(--text-normal);
+}
+
+/* Optional: Change color on hover */
+.svg-icon.lucide-x:hover {
+    color: #bf616a !important; /* Change to red on hover */
+    stroke: #bf616a !important;
+}
+
+
+/* Target the callout in both Live Preview/Source View and Reading View */
+.markdown-source-view.mod-cm6 .callout,
+.markdown-preview-view .callout {
+    /* --- 1. Remove/Override Theme Defaults --- */
+    
+    /* Crucial: Removes the default colored line on the left */
+    border-left: none !important;
+    
+    /* Resets any padding or margin inherited from the theme's default callout style */
+    padding-left: 15px !important; 
+    padding-right: 15px !important;
+    
+    /* --- 2. Add Box Styling --- */
+
+    /* Add a solid border around the entire box */
+    border: 1px solid var(--background-modifier-border) !important; 
+
+    /* Add a soft box-shadow for a "lifted" 3D effect */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2) !important; 
+    
+    /* Apply rounded corners to the box */
+    border-radius: 0 !important; 
+    
+    /* Ensure a clean, visible background */
+    background-color: var(--background-primary-alt) !important;
+    
+    /* Add some external space above/below to separate it from other text */
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+/* Optional: Clean up the title area if it still looks off */
+.callout-title {
+    /* Ensure the title text is legible against the new background */
+    color: var(--text-normal) !important;
+    
+    /* Remove any border that might still be separating the title */
+    border-bottom: none !important; 
+}
+
+
+
+/* Check Boxes */
+
+/* Squircle Checkboxes */
+.task-list-item-checkbox {
+    /* Use 50% for a perfect circle */
+    border-radius: 5px !important; 
+    
+    /* Ensure the dimensions are square, in case they are not already */
+    width: 1em;
+    height: 1em;
+}
+
+/* Target the list item when the status is 'in progress' [/] */
+.task-list-item[data-task="/"] .task-list-item-checkbox {
+    /* Set the background and border color for the in-progress state */
+    background-color: var(--color-yellow) !important; 
+    border-color: var(--color-yellow) !important;
+}
+
+/* Create the single line inside the checkbox */
+.task-list-item[data-task="/"] .task-list-item-checkbox::before {
+    /* Crucial: Hide the default checkmark/content */
+    content: none !important; 
+}
+
+.task-list-item[data-task="/"] .task-list-item-checkbox::after {
+    /* Position and style the line */
+    content: "" !important; 
+    position: absolute;
+    top: 50%;
+    left: 10%; /* Start the line slightly in */
+    
+    width: 80%; /* Length of the line */
+    height: 0px; /* Thickness of the line */
+    transform: translateY(-50%);
+    
+    /* Ensure it is visible */
+    opacity: 1 !important; 
+}
+
+/* Apply strike-through and fade the text for the 'cancelled' status [-] */
+.task-list-item[data-task="-"] {
+    text-decoration: line-through !important; 
+    opacity: 0.6; 
+}
+
+/* Target the checkbox when the status is 'cancelled' [-] */
+.task-list-item[data-task="-"] .task-list-item-checkbox {
+    /* 1. Ensure the checkbox is styled as a square */
+    background-color: var(--background-modifier-border) !important; 
+    border-color: var(--text-faint) !important;
+    
+    /* 2. Hide the existing tick/content */
+    color: transparent !important; /* Hide any text content */
+    
+    /* Crucial: Set position context for the lines */
+    position: relative !important;
+}
+
+/* 4. Draw the second line (\) */
+.task-list-item[data-task="-"] .task-list-item-checkbox::before {
+    content: "" !important; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    /* Dimensions and color of the line (same as before) */
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-faint); 
+    
+    /* Translate to center and rotate -45 degrees */
+    transform: translate(-50%, -50%) rotate(-45deg); 
+}
+
+/* 3. Draw the first line (/) */
+.task-list-item[data-task="-"] .task-list-item-checkbox::after {
+    content: "" !important; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    /* Dimensions and color of the line */
+    width: 100%;
+    height: 0px;
+    background-color: var(--text-faint); 
+    
+    /* Translate to center and rotate 45 degrees */
+    transform: translate(-50%, -50%) rotate(45deg); 
+}
+
+
+
+/* --- FILE EXPLORER / SIDEBAR STYLING --- */
+
+/* Removes any default hover/active rounding on file/folder names */
+.nav-file-title,
+.nav-folder-title {
+    border-radius: 0px !important;
+    border-radius: 0px !important;
+}
+
+/* Adds a solid border to the active file for emphasis */
+.nav-file-title.is-active,
+.nav-file-title.is-active:hover {
+    background-color: rgba(var(--highlight-color),0.7) !important;
+    border-left: 5px solid rgb(var(--highlight-color-2)) !important;
+    border-radius: 0px !important;
+}
+
+/* Force the background color to be applied */
+.nav-file-title:hover,
+.nav-folder-title:hover {
+    background-color: rgba(var(--highlight-color),0.5) !important;
+    border-radius: 5px !important;
+}
+
+/* Change the handle color using background-color */
+.workspace-leaf-resize-handle {
+
+    /* Remove all other borders and background */
+    border: none !important;
+    background: none !important;
+}
+
+
+
+/* --- SIDEBAR ACTION BUTTON STYLING (The FIX) --- */
+
+/* 1. DEFAULT STATE: Define the standard size and smoothness */
+.clickable-icon.nav-action-button {
+    border-radius: 0px !important; 
+    
+    /* Define the base size/spacing here so it doesn't shift on hover */
+    padding: 6px 10px !important; 
+    margin: 0 0 !important;
+}
+
+/* 2. HOVER STATE: Only change the radius and color */
+.clickable-icon.nav-action-button:hover {
+    /* Corner change is now smooth due to the transition */
+    border-radius: 10px !important; 
+    
+    /* Keep padding and margin the same to prevent shift */
+    padding: 6px 10px !important; 
+    margin: 0 0 !important;
+    
+    background-color: var(--background-modifier-hover);
+}
+
+.clickable-icon.side-dock-ribbon-action {
+    border-radius: 0px !important; 
+    
+    /* Define the base size/spacing here so it doesn't shift on hover */
+    padding: 6px 10px !important; 
+    margin: 0 0 !important;
+    
+    /* ADD TRANSITION: Makes the corner change smooth */
+    transition: border-radius 0s ease, background-color 0s ease, padding 0s ease;
+}
+
+.clickable-icon.side-dock-ribbon-action:hover {
+    /* Corner change is now smooth due to the transition */
+    border-radius: 10px !important; 
+    
+    /* Keep padding and margin the same to prevent shift */
+    padding: 6px 10px !important; 
+    margin: 0 0 !important;
+    
+    background-color: var(--background-modifier-hover);
+}
+
+.workspace-drawer-vault-switcher {
+    border-radius: 0px !important; 
+    
+    /* Define the base size/spacing here so it doesn't shift on hover */
+    padding: 6px 10px !important; 
+    margin: 0 0 !important;
+    
+    /* ADD TRANSITION: Makes the corner change smooth */
+    transition: border-radius 0s ease, background-color 0s ease, padding 0s ease;
+}
+
+.workspace-drawer-vault-switcher:hover {
+    /* Corner change is now smooth due to the transition */
+    border-radius: 10px !important; 
+    
+    /* Keep padding and margin the same to prevent shift */
+    padding: 6px 10px !important; 
+    margin: 0 0 !important;
+    
+    background-color: var(--background-modifier-hover);
+}
+
+.clickable-icon {
+    border-radius: 0px !important; 
+    
+    /* Define the base size/spacing here so it doesn't shift on hover */
+    padding: 6px 10px !important; 
+    margin: 0 0 !important;
+}
+
+.clickable-icon:hover {
+    /* Corner change is now smooth due to the transition */
+    border-radius: 10px !important; 
+    
+    /* Keep padding and margin the same to prevent shift */
+    padding: 6px 10px !important; 
+    margin: 0 0 !important;
+    
+    background-color: var(--background-modifier-hover);
+}
+
+
+
+/* Tool Tip */
+
+.tooltip {
+  /* Change the background color */
+  background-color: var(--tooltip-color); 
+  
+  /* Change the text color */
+  color: var(--text-normal); 
+  
+  /* Change the border radius (rounded corners) */
+  border-radius: 4px;
+  
+  /* Change the font size */
+  font-size: 0.85em;
+}
+
+/* You may also want to change the small arrow/pointer */
+.tooltip.mod-top .tooltip-arrow {
+  /* For tooltips positioned on top (default for file/ribbon hover) */
+  border-top-color: var(--tooltip-border);
+  border: none;
+}
+
+.tooltip.mod-left .tooltip-arrow {
+  /* For tooltips positioned on top (default for file/ribbon hover) */
+  border-left-color: var(--tooltip-border);
+  border: none;
+}
+
+.tooltip.mod-right .tooltip-arrow {
+  /* For tooltips positioned on top (default for file/ribbon hover) */
+  border-right-color: var(--tooltip-border);
+  border: none;
+}
+
+.tooltip.mod-bottom .tooltip-arrow {
+  /* For tooltips positioned on top (default for file/ribbon hover) */
+  border-bottom-color: var(--tooltip-border);
+  border: none;
+}
+
+
+
+/* --- Fixes: Property Dividers Curling Up / Not Stretching Full Width --- */
+
+/* 1. Target the main properties wrapper to remove side padding and border-radius */
+.mod-metadata {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    /* IMPORTANT FIX: Remove border-radius from the container so the line doesn't 'curl' */
+    border-radius: 0 !important;
+}
+
+/* 2. Target the immediate properties container to reset padding and ensure width */
+.metadata-properties {
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* 3. Target every individual property row for the straight line */
+.metadata-property {
+    /* *** MODIFICATION 1: Remove the static border-bottom and set a transparent one *** */
+    /* This reserves the space for the line but keeps it invisible by default */
+    border-bottom: 1px solid transparent; 
+    
+    /* Ensure full width and remove margins */
+    width: 100% !important; 
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    /* Re-introduce padding for the text content */
+    padding-left: 8px !important; 
+    padding-right: 8px !important;
+    padding-top: 4px; 
+    padding-bottom: 4px;
+    
+    /* Ensure the border-radius property doesn't influence the division line */
+    border-radius: 0 !important;
+
+    /* Optional: Add a transition for a smooth visual effect on the line */
+    transition: border-bottom-color 0.15s ease-in-out;
+}
+
+/* 4. Target the hover effect separately to apply the line and rounding */
+.metadata-property:hover {
+    /* *** MODIFICATION 2: Apply the line color on hover *** */
+    /* Use the standard divider color, or an accent color for 'active' status */
+    border-bottom-color: var(--metadata-divider-color); 
+    
+    /* Use a background color or box-shadow for the hover effect */
+    background-color: var(--tooltip-color);
+    /* Re-apply the desired rounded corners only on hover */
+    border-radius: 4px; 
+}
+
+/* 5. Override: Remove the border from the very last property row */
+.metadata-property:last-child {
+    /* Since the line is transparent by default now, you can keep this or remove it, */
+    /* but keeping it ensures the last line remains hidden even if we change the default */
+    border-bottom: none !important; 
+}
+
+/* To ensure the rounded hover doesn't clip on the top/bottom */
+.metadata-property:first-child:hover {
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important;
+}
+
+/* Make sure the rounded corners are applied to all four corners of middle items */
+.metadata-property:not(:first-child):not(:last-child):hover {
+    border-radius: 4px !important;
+}
+
+.metadata-property:last-child:hover {
+    border-bottom-left-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+
+.metadata-container {
+    --metadata-divider-width: 1px;
+}
+
+body.is-mobile .metadata-container {
+    --metadata-divider-width: 1px;
+}
+
+.metadata-properties {
+  --metadata-gap: 2px;
+}
+
+
+/* Callouts */
+
+/* Defines a new callout type called 'important-red' */
+.callout[data-callout="red"] {
+  --callout-color: 191, 97, 106; 
+  /* Optional: Change the icon (you can find IDs at lucide.dev) */
+  --callout-icon: lucide-alert-triangle;
+}
+
+/* Defines a new callout type called 'personal-blue' */
+.callout[data-callout="blue"] {
+  --callout-color: 94, 129, 2172;
+  --callout-icon: lucide-user;
+}
+
+/* Set the color for the tab close 'X' */
+.workspace-tab-header.is-active .workspace-tab-header-inner-close-button .svg-icon.lucide-x {
+  stroke: var(--text-normal) !important;
+}
+
+.workspace-tab-header:not(.is-active) .workspace-tab-header-inner-close-button .svg-icon.lucide-x {
+  stroke: #767676 !important;
+}
+
+/* Set the color for the settings close 'X' */
+.modal-close-button .svg-icon.lucide-x {
+  stroke: var(--text-normal) !important;
+}
+
+/* Target the SVG icon within the extra setting button (e.g., Delete button) */
+.extra-setting-button .svg-icon.lucide-x {
+  /* Set the stroke color for the 'X' lines */
+  stroke: var(--text-normal) !important; 
+}
+
+/* Target the SVG icon within the graph controls close button */
+.graph-controls-button.mod-close .svg-icon.lucide-x {
+  /* Set the line color for the 'X' */
+  stroke: var(--text-normal) !important;
+}
